@@ -1,0 +1,253 @@
+<div class="tituloPagina">
+  {{ Titulo }}
+</div>
+
+<!-- Registro en Alta,Modificacion y Consulta -->
+<form name="FormRegistro" [formGroup]="FormRegistro">
+  <div class="container-fluid">
+    <fieldset [disabled]="AccionABMC === 'C'">
+      <!--campo ciudad-->
+      <div class="row">
+        <div class="col-sm-4 col-md-3 offset-md-1">
+          <label class="col-form-label" for="Ciudad">Ciudad:</label>
+        </div>
+        <div class="col-sm-8 col-md-6">
+          <!-- ref?? disabled html no fucniona en reactive forms? -->
+          <select
+            class="form-control"
+            name="Ciudad"
+            formControlName="Ciudad"
+            [disabled]="true"
+          >
+            <option *ngFor="let opt of OcionesCiudad" [ngValue]="opt.Id">
+              ‌{{ opt.Nombre }}
+            </option>
+          </select>
+        </div>
+        <div
+          class="validacion"
+          *ngIf="
+            (FormRegistro.controls['Ciudad'].touched || submitted) &&
+            FormRegistro.controls['Ciudad'].hasError('required')
+          "
+        >
+          Dato requerido.
+        </div>
+      </div>
+
+      <!--campo calle-->
+      <div class="row">
+        <div class="col-sm-4 col-md-3 offset-md-1">
+          <label class="col-form-label" for="Calle"
+            >Calle<span class="text-danger">*</span>:</label
+          >
+        </div>
+        <div class="col-sm-8 col-md-6">
+          <input
+            type="text"
+            class="form-control"
+            formControlName="Calle"
+            [ngClass]="{
+              'is-invalid':
+                (FormRegistro.controls['Calle'].touched || submitted) &&
+                FormRegistro.controls['Calle'].errors
+            }"
+          />
+
+          <div
+            class="validacion"
+            *ngIf="
+              (FormRegistro.controls['Calle'].touched || submitted) &&
+              FormRegistro.controls['Calle'].hasError('required')
+            "
+          >
+            Dato requerido.
+          </div>
+          <div
+            class="validacion"
+            *ngIf="
+              (FormRegistro.controls['Calle'].touched || submitted) &&
+              (FormRegistro.controls['Calle'].hasError('minlength') ||
+                FormRegistro.controls['Calle'].hasError('maxlength'))
+            "
+          >
+            Dato requerido.
+          </div>
+        </div>
+      </div>
+
+      <!--campo altura-->
+      <div class="row">
+        <div class="col-sm-4 col-md-3 offset-md-1">
+          <label class="col-form-label" for="Altura"
+            >Altura<span class="text-danger">*</span>:</label
+          >
+        </div>
+        <div class="col-sm-8 col-md-6">
+          <input
+            type="text"
+            name="Altura"
+            class="form-control"
+            formControlName="Altura"
+            [ngClass]="{
+              'is-invalid':
+                (FormRegistro.controls['Altura'].touched || submitted) &&
+                FormRegistro.controls['Altura'].errors
+            }"
+          />
+          <div
+            class="validacion"
+            *ngIf="
+              (FormRegistro.controls['Altura'].touched || submitted) &&
+              FormRegistro.controls['Altura'].hasError('required')
+            "
+          >
+            Dato requerido.
+          </div>
+          <div
+            class="validacion"
+            *ngIf="
+              (FormRegistro.controls['Altura'].touched || submitted) &&
+              FormRegistro.controls['Altura'].hasError('pattern')
+            "
+          >
+            Dato numérico.
+          </div>
+        </div>
+      </div>
+
+      <!--campo referencia-->
+      <div class="row">
+        <div class="col-sm-4 col-md-3 offset-md-1">
+          <label class="col-form-label" for="Referencia"
+            >Referencia<span class="text-danger">*</span>:</label
+          >
+        </div>
+        <div class="col-sm-8 col-md-6">
+          <input
+            type="text"
+            class="form-control"
+            formControlName="Referencia"
+            [ngClass]="{
+              'is-invalid':
+                (FormRegistro.controls['Referencia'].touched || submitted) &&
+                FormRegistro.controls['Referencia'].errors
+            }"
+          />
+
+          <div
+            class="validacion"
+            *ngIf="
+              (FormRegistro.controls['Referencia'].touched || submitted) &&
+              FormRegistro.controls['Referencia'].hasError('required')
+            "
+          >
+            Dato requerido.
+          </div>
+          <div
+            class="validacion"
+            *ngIf="
+              (FormRegistro.controls['Referencia'].touched || submitted) &&
+              (FormRegistro.controls['Referencia'].hasError('minlength') ||
+                FormRegistro.controls['Referencia'].hasError('maxlength'))
+            "
+          >
+            No puede superar los 300 caracteres.
+          </div>
+        </div>
+      </div>
+
+      <!--campo fechaalta-->
+      <div class="row">
+        <div class="col-sm-4 col-md-3 offset-md-1">
+          <label class="col-form-label"
+            >Fecha de entrega<span class="text-danger">*</span>:
+          </label>
+        </div>
+        <div class="col-sm-8 col-md-6">
+          <input
+            class="form-control"
+            formControlName="FechaAlta"
+            name="FechaAlta"
+            [ngClass]="{
+              'is-invalid':
+                (FormRegistro.controls['FechaAlta'].touched || submitted) &&
+                FormRegistro.controls['FechaAlta'].errors
+            }"
+          />
+
+          <div
+            class="validacion"
+            *ngIf="
+              (FormRegistro.controls['FechaAlta'].touched || submitted) &&
+              FormRegistro.controls['FechaAlta'].hasError('required')
+            "
+          >
+            Dato requerido.
+          </div>
+          <div
+            class="validacion"
+            *ngIf="
+              (FormRegistro.controls['FechaAlta'].touched || submitted) &&
+              FormRegistro.controls['FechaAlta'].hasError('pattern')
+            "
+          >
+            Dato fecha, formato dd/mm/aaaa.
+          </div>
+        </div>
+      </div>
+
+      <!--campo fomrma pago-->
+      <div class="row">
+        <div class="col-sm-4 col-md-3 offset-md-1">
+          <label class="col-form-label" for="Activo">Forma de Pago:</label>
+        </div>
+        <div class="col-sm-8 col-md-6">
+          <!-- ref?? disabled html no fucniona en reactive forms? -->
+          <select
+            class="form-control"
+            name="Activo"
+            formControlName="Activo"
+            [disabled]="true"
+          >
+            <option *ngFor="let opt of OpcionesFormaPago" [ngValue]="opt.Id">
+              ‌{{ opt.Nombre }}
+            </option>
+          </select>
+        </div>
+        <div
+          class="validacion"
+          *ngIf="
+            (FormRegistro.controls['Ciudad'].touched || submitted) &&
+            FormRegistro.controls['Ciudad'].hasError('required')
+          "
+        >
+          Dato requerido.
+        </div>
+      </div>
+
+      <hr />
+      <!-- Botones -->
+      <div class="row justify-content-center botones">
+        <button
+          type="button"
+          class="btn btn-success"
+          (click)="mensajeConfirmacion()"
+        >
+          <i class="fa fa-check"></i>Confirmar
+        </button>
+        <button type="button" class="btn btn-warning" routerLink="/inicio">
+          <i class="fa fa-undo"></i> Cancelar
+        </button>
+      </div>
+    </fieldset>
+
+    <!--texto: Revisar los datos ingresados...-->
+    <div
+      *ngIf="submitted && FormRegistro.invalid"
+      class="row alert alert-danger mensajesAlert"
+    >
+      <i class="fa fa-exclamation-sign"></i>{{ Mensajes['RD'] }}
+    </div>
+  </div>
+</form>
