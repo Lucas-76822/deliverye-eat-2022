@@ -14,14 +14,15 @@
     <thead>
       <tr>
         <th class="text-center">Nombre</th>
+        <th class="text-center">Cantidad</th>
         <th class="text-center">Precio</th>
-
         <th class="text-center text-nowrap">Acciones</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let Item of Items">
         <td>{{ Item.Nombre | uppercase }}</td>
+        <td>{{ Item.Stock }}</td>
         <td class="text-right">{{ Item.Precio | currency: "$" }}</td>
         <td class="text-center text-nowrap">
           <button

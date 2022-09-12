@@ -1,7 +1,8 @@
 import { DatePipe, getLocaleDateFormat } from "@angular/common";
-import { Component, ElementRef, OnInit } from "@angular/core";
+import { Component, ElementRef, OnInit, Input } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { ModalDialogService } from "../../services/modal-dialog.service";
+import { CarritoComponent } from "../carrito/carrito.component";
 
 @Component({
   selector: "app-pedido",
@@ -100,6 +101,7 @@ export class PedidoComponent implements OnInit {
 
   submitted = false;
   montoSelec: number;
+  montoCarrito: number;
 
   constructor(
     //private articulosService: MockArticulosService,
@@ -112,8 +114,20 @@ export class PedidoComponent implements OnInit {
     this.AccionABMC = "L";
   }
   confirmar() {
+    console.log(this.montoCarrito + " - " + this.montoSelec);
     this.setValidEntrega();
     this.setValidFormaPago();
+    this.validarMonto();
+  }
+  guardarMonto(event) {
+    this.montoCarrito = event.monto;
+  }
+  validarMonto() {
+    if (this.montoSelec >= this.montoCarrito) {
+      this.mensajeConfirmacion();
+    } else {
+      this.FormRegistro.controls.Monto.setValue(null);
+    }
   }
   setValidFormaPago() {
     if (this.opSelec == 1 && this.FormRegistro.controls.Monto.valid) {
@@ -131,7 +145,6 @@ export class PedidoComponent implements OnInit {
       this.FormRegistro.controls.Monto.setValue(1000000);
     }
     this.montoSelec = this.FormRegistro.controls.Monto.value;
-    this.mensajeConfirmacion();
   }
 
   setValidEntrega() {

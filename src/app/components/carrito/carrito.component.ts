@@ -1,5 +1,11 @@
-import { Component, ElementRef, OnInit } from "@angular/core";
-import { Articulo } from "../../models/articulo";
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  OnInit,
+  Output,
+} from "@angular/core";
+import { Articulo, Articulos } from "../../models/articulo";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { ModalDialogService } from "../../services/modal-dialog.service";
 
@@ -30,7 +36,7 @@ export class CarritoComponent implements OnInit {
       Precio: 900.0,
       CodigoDeBarra: "0693536405046",
       IdArticuloFamilia: 9,
-      Stock: 898,
+      Stock: 2,
       FechaAlta: "2017-01-23T00:00:00",
       Activo: false,
     },
@@ -40,7 +46,7 @@ export class CarritoComponent implements OnInit {
       Precio: 950,
       CodigoDeBarra: "0779816944014",
       IdArticuloFamilia: 7,
-      Stock: 668,
+      Stock: 1,
       FechaAlta: "2017-01-04T00:00:00",
       Activo: true,
     },
@@ -53,9 +59,16 @@ export class CarritoComponent implements OnInit {
     { Id: false, Nombre: "NO" },
   ];
 
+  @Output() montoTotal = new EventEmitter<any>();
+
+  totalMonto: number;
+
   Quitar(item) {
-    this.Items.splice(item, 1);
-    console.log("Carrito Actualizado");
+    var indexItem = this.Items.findIndex((object) => {
+      return object.IdArticulo === item.IdArticulo;
+    });
+    this.Items.splice(indexItem, 1);
+    this.actualizarMonto();
   }
 
   RestaurarCarrito() {
@@ -66,7 +79,7 @@ export class CarritoComponent implements OnInit {
         Precio: 900.0,
         CodigoDeBarra: "0693536405046",
         IdArticuloFamilia: 9,
-        Stock: 898,
+        Stock: 2,
         FechaAlta: "2017-01-23T00:00:00",
         Activo: false,
       },
@@ -76,14 +89,26 @@ export class CarritoComponent implements OnInit {
         Precio: 950,
         CodigoDeBarra: "0779816944014",
         IdArticuloFamilia: 7,
-        Stock: 668,
+        Stock: 1,
         FechaAlta: "2017-01-04T00:00:00",
         Activo: true,
       },
     ];
+    this.actualizarMonto();
+  }
+
+  actualizarMonto() {
+    this.totalMonto = 0;
+    for (var item in this.Items) {
+      this.totalMonto += this.Items[item].Precio;
+    }
+    console.log(this.totalMonto);
+    this.montoTotal.emit({ monto: this.totalMonto });
   }
 
   constructor(private modalDialogService: ModalDialogService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.actualizarMonto();
+  }
 }
