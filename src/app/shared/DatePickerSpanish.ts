@@ -1,9 +1,13 @@
 import { NgbDatepickerI18n, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { Injectable } from '@angular/core';
+import { TranslationWidth } from '@angular/common';
 
 
 @Injectable()
 export class DatePickerSpanish extends NgbDatepickerI18n {
+  getWeekdayLabel(weekday: number, width?: TranslationWidth): string {
+    throw new Error('Method not implemented.');
+  }
   public getWeekdayShortName(weekday: number): string {
       return [
         'Lu',

@@ -1,3 +1,4 @@
+import { DatePipe, getLocaleDateFormat } from '@angular/common';
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ModalDialogService } from '../../services/modal-dialog.service';
@@ -16,6 +17,7 @@ export class PedidoComponent implements OnInit {
     C: '(Consultar)',
     L: '(Listado)',
   };
+
   AccionABMC = 'L'; // inicialmente inicia en el Listado de articulos (buscar con parametros)
   Mensajes = {
     SD: ' No se encontraron registros...',
@@ -26,12 +28,8 @@ export class PedidoComponent implements OnInit {
   //RegistrosTotal: number;
   //Familias: ArticuloFamilia[] = [];
 
-  // opciones del combo activo
-  OpcionesActivo = [
-    { Id: null, Nombre: '' },
-    { Id: true, Nombre: 'Efectivo' },
-    { Id: false, Nombre: 'Devito/Credito' },
-  ];
+  // opciones de combo
+
   OcionesCiudad = [
     { Id: null, Nombre: '' },
     { Id: 1, Nombre: 'Cordoba' },
@@ -39,32 +37,77 @@ export class PedidoComponent implements OnInit {
     { Id: 3, Nombre: 'Jesu Maria' },
     { Id: 4, Nombre: 'Calamuchita' },
   ];
-
   OpcionesFormaPago = [
-    { Id: null, Nombre: '' },
-    { Id: true, Nombre: 'Efectivo' },
-    { Id: false, Nombre: 'Credito/Devito' },
+    { Id: 1, Nombre: 'Efectivo' },
+    { Id: 2, Nombre: 'Credito/Debito' },
+  ];
+  OpcionesFormaEntrega = [
+    { Id: 1, Nombre: 'Inmediata' },
+    { Id: 2, Nombre: 'Acordar Fecha y Hora' },
   ];
 
+  public opSelec: number = 1;
+  public opFormaEntrega: number = 1;
+
+
+  public fechaActual:Date;
+  public fechaStrActual:String;
+  public horaStrActual:String;
+
+  ngOnInit() {
+    this.fechaActual = new Date( new Date().getFullYear(), new Date().getMonth(), new Date().getDate(),new Date().getHours(),new Date().getMinutes());
+    this.fechaStrActual = this.pd.transform(this.fechaActual,"yyyy-MM-dd");
+    this.horaStrActual = this.pd.transform(this.fechaActual,"hh:mm");
+    
+  }
   FormRegistro = new FormGroup({
-    IdArticulo: new FormControl(0),
 
     Calle: new FormControl('', [Validators.required]),
     Altura: new FormControl(null, [
       Validators.required,
-      Validators.pattern('[0-9]{1,7}'),
+      Validators.pattern('[0-9]{1,10}'),
     ]),
 
     Referencia: new FormControl('', [Validators.maxLength(300)]),
 
     FechaAlta: new FormControl('', [
       Validators.required,
+      
+      //Validators.pattern('(0[1-9]|[12][0-9]|3[01])[-/](0[1-9]|1[012])[-/](202)[2-9]{1}'),
+    ]),
+    Hora: new FormControl('', [
+      Validators.required,
+      
+      //Validators.pattern('(0[1-9]|[12][0-9]|3[01])[-/](0[1-9]|1[012])[-/](202)[2-9]{1}'),
+    ]),
+    Activo: new FormControl(1, [Validators.required]),
+
+    Entrega: new FormControl(1, [Validators.required]),
+
+    Ciudad: new FormControl(null, [Validators.required]),
+
+    Monto: new FormControl(null, [
+      Validators.required,
+      Validators.pattern('[0-9]{1,10}'),
+    ]),
+    
+    Nombre: new FormControl('', [Validators.required]),
+    Tarjeta: new FormControl(null, [
+      Validators.required,
+      Validators.pattern('5[0-9]{15,15}'),
+    ]),
+
+    CVV: new FormControl(null, [
+      Validators.required,
+      Validators.pattern('[0-9]{3,3}'),
+    ]),
+
+    FechaVencimiento: new FormControl('', [
+      Validators.required,
       Validators.pattern(
         '(0[1-9]|[12][0-9]|3[01])[-/](0[1-9]|1[012])[-/](202)[2-9]{1}'
       ),
     ]),
-    Activo: new FormControl(null, [Validators.required]),
-    Ciudad: new FormControl(null, [Validators.required]),
   });
 
   submitted = false;
@@ -72,10 +115,9 @@ export class PedidoComponent implements OnInit {
   constructor(
     //private articulosService: MockArticulosService,
     //private articulosFamiliasService: MockArticulosFamiliasService,
-    private modalDialogService: ModalDialogService
+    private modalDialogService: ModalDialogService,
+    private pd:DatePipe,
   ) {}
-
-  ngOnInit() {}
 
   Volver() {
     this.AccionABMC = 'L';

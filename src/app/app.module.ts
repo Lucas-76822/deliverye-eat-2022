@@ -13,7 +13,7 @@ import {
   NgbDateParserFormatter,
   NgbDatepickerI18n,
 } from '@ng-bootstrap/ng-bootstrap';
-import { APP_BASE_HREF } from '@angular/common';
+import { APP_BASE_HREF, DatePipe } from '@angular/common';
 
 import { AppComponent } from './app.component';
 import { InicioComponent } from './components/inicio/inicio.component';
@@ -66,6 +66,7 @@ import { FormFocusDirective } from './shared/form-focus.directive';
   ],
   entryComponents: [ModalDialogComponent],
   providers: [
+    DatePipe,
     { provide: APP_BASE_HREF, useValue: '/' },
     { provide: HTTP_INTERCEPTORS, useClass: MyInterceptor, multi: true },
 
