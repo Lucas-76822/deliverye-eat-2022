@@ -82,15 +82,15 @@ export class PedidoComponent implements OnInit {
     if (this.opFormaEntrega != 2) {
       this.FormRegistro.controls["FechaAlta"].setValidators(null);
       this.FormRegistro.controls["FechaAlta"].updateValueAndValidity()
-      this.FormRegistro.controls["Hora"].setValidators(null);
-      this.FormRegistro.controls["Hora"].updateValueAndValidity()
+      //this.FormRegistro.controls["Hora"].setValidators(null);
+      //this.FormRegistro.controls["Hora"].updateValueAndValidity()
     }
     
     else {
       this.FormRegistro.controls["FechaAlta"].setValidators([Validators.required]); 
       this.FormRegistro.controls["FechaAlta"].updateValueAndValidity()
-      this.FormRegistro.controls["Hora"].setValidators([Validators.required]);
-      this.FormRegistro.controls["Hora"].updateValueAndValidity()
+      //this.FormRegistro.controls["Hora"].setValidators([Validators.required]);
+      //this.FormRegistro.controls["Hora"].updateValueAndValidity()
     }
   }
 

@@ -176,7 +176,8 @@
           </label>
                 </div>
                 <div class="col-sm-8 col-md-6">
-                    <input type="date" lass="form-control" formControlName="FechaAlta" name="FechaAlta" [min]="fechaStrActual" max="" [ngClass]="{'is-invalid': (FormRegistro.controls['FechaAlta'].touched || submitted) && FormRegistro.controls['FechaAlta'].errors}" />
+                    <input type="datetime-local" lass="form-control" formControlName="FechaAlta" name="FechaAlta" [min]="fechaStrActual" max="" [ngClass]="{'is-invalid': (FormRegistro.controls['FechaAlta'].touched || submitted) && FormRegistro.controls['FechaAlta'].errors}"
+                    />
 
                     <div class="validacion" *ngIf="
               (FormRegistro.controls['FechaAlta'].touched || submitted) &&
@@ -193,29 +194,7 @@
                 </div>
             </div>
 
-            <!--campo hora Entrega-->
-            <div class="row" *ngIf="opFormaEntrega == 2">
-                <div class="col-sm-4 col-md-3 offset-md-1">
-                    <label for="meeting-time" class="col-form-label">Hora de entrega<span class="text-danger">*</span>:
-          </label>
-                </div>
-                <div class="col-sm-8 col-md-6">
-                    <input type="time" lass="form-control" formControlName="Hora" name="Hora" [min]="" max="" [ngClass]="{'is-invalid': (FormRegistro.controls['Hora'].touched || submitted) && FormRegistro.controls['HoraActual'].errors}" />
 
-                    <div class="validacion" *ngIf="
-              (FormRegistro.controls['Hora'].touched || submitted) &&
-              FormRegistro.controls['Hora'].hasError('required')
-            ">
-                        Dato requerido.
-                    </div>
-                    <div class="validacion" *ngIf="
-              (FormRegistro.controls['Hora'].touched || submitted) &&
-              FormRegistro.controls['Hora'].hasError('pattern')
-            ">
-                        Dato hora, formato hh:mm.
-                    </div>
-                </div>
-            </div>
 
             <!--campo fomrma pago-->
             <div class="row">
