@@ -187,13 +187,13 @@
       <!--campo fechaEntrega-->
       <div class="row" *ngIf="opFormaEntrega == 2">
         <div class="col-sm-4 col-md-3 offset-md-1">
-          <label for="meeting-time" class="col-form-label"
-            >Fecha y hora de entrega<span class="text-danger">*</span>:
+          <label for="FechaAlta" class="col-form-label"
+            >Fecha de entrega<span class="text-danger">*</span>:
           </label>
         </div>
         <div class="col-sm-8 col-md-6">
           <input
-            type="date"
+            type="datetime-local"
             lass="form-control"
             formControlName="FechaAlta"
             name="FechaAlta"
@@ -215,22 +215,13 @@
           >
             Dato requerido.
           </div>
-          <div
-            class="validacion"
-            *ngIf="
-              (FormRegistro.controls['FechaAlta'].touched || submitted) &&
-              FormRegistro.controls['FechaAlta'].hasError('pattern')
-            "
-          >
-            Dato fecha, formato dd/mm/aaaa.
-          </div>
         </div>
       </div>
 
       <!--campo hora Entrega-->
-      <div class="row" *ngIf="opFormaEntrega == 2">
+      <!-- <div class="row" *ngIf="opFormaEntrega == 2">
         <div class="col-sm-4 col-md-3 offset-md-1">
-          <label for="meeting-time" class="col-form-label"
+          <label for="Hora" class="col-form-label"
             >Hora de entrega<span class="text-danger">*</span>:
           </label>
         </div>
@@ -240,8 +231,6 @@
             lass="form-control"
             formControlName="Hora"
             name="Hora"
-            min=""
-            max=""
             [ngClass]="{
               'is-invalid':
                 (FormRegistro.controls['Hora'].touched || submitted) &&
@@ -260,15 +249,12 @@
           </div>
           <div
             class="validacion"
-            *ngIf="
-              (FormRegistro.controls['Hora'].touched || submitted) &&
-              FormRegistro.controls['Hora'].hasError('pattern')
-            "
+            *ngIf="FormRegistro.controls['Hora'].touched || submitted"
           >
             Dato hora, formato hh:mm.
           </div>
         </div>
-      </div>
+      </div> -->
 
       <!--campo fomrma pago-->
       <div class="row">

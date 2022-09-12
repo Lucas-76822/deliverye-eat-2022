@@ -24,10 +24,6 @@ export class PedidoComponent implements OnInit {
     RD: " Revisar los datos ingresados...",
   };
 
-  //Items: Articulo[] = null;
-  //RegistrosTotal: number;
-  //Familias: ArticuloFamilia[] = [];
-
   // opciones de combo
 
   OcionesCiudad = [
@@ -62,7 +58,6 @@ export class PedidoComponent implements OnInit {
       new Date().getMinutes()
     );
     this.fechaStrActual = this.pd.transform(this.fechaActual, "yyyy-MM-dd");
-    this.horaStrActual = this.pd.transform(this.fechaActual, "hh:mm");
   }
   FormRegistro = new FormGroup({
     Calle: new FormControl("", [Validators.required]),
@@ -73,16 +68,8 @@ export class PedidoComponent implements OnInit {
 
     Referencia: new FormControl("", [Validators.maxLength(300)]),
 
-    FechaAlta: new FormControl("", [
-      Validators.required,
+    FechaAlta: new FormControl("", [Validators.required]),
 
-      //Validators.pattern('(0[1-9]|[12][0-9]|3[01])[-/](0[1-9]|1[012])[-/](202)[2-9]{1}'),
-    ]),
-    Hora: new FormControl("", [
-      Validators.required,
-
-      //Validators.pattern('(0[1-9]|[12][0-9]|3[01])[-/](0[1-9]|1[012])[-/](202)[2-9]{1}'),
-    ]),
     Activo: new FormControl(1),
 
     Entrega: new FormControl(1),
@@ -152,7 +139,6 @@ export class PedidoComponent implements OnInit {
       this.FormRegistro.controls.FechaAlta.setValue(
         this.fechaStrActual.toString()
       );
-      this.FormRegistro.controls.Hora.setValue(this.horaStrActual.toString());
     } else {
       return;
     }
