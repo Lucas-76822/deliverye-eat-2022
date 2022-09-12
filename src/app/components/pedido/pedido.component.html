@@ -155,7 +155,7 @@
                 </div>
                 <div class="col-sm-8 col-md-6">
                     <!-- ref?? disabled html no fucniona en reactive forms? -->
-                    <select class="form-control" name="Entrega" formControlName="Entrega" [disabled]="true" [(ngModel)]="opFormaEntrega">
+                    <select class="form-control" name="Entrega" formControlName="Entrega" [disabled]="true" [(ngModel)]="opFormaEntrega" (change)="entregaValidadorRequerido()">
     <option *ngFor="let optEntrega of OpcionesFormaEntrega" [ngValue]="optEntrega.Id">
       ‌{{ optEntrega.Nombre }}
     </option>
@@ -224,7 +224,7 @@
                 </div>
                 <div class="col-sm-8 col-md-6">
                     <!-- ref?? disabled html no fucniona en reactive forms? -->
-                    <select class="form-control" name="Activo" formControlName="Activo" [disabled]="true" [(ngModel)]="opSelec">
+                    <select class="form-control" name="Activo" formControlName="Activo" [disabled]="true" [(ngModel)]="opSelec" (change)="pagoValidadorRequerido()">
             <option *ngFor="let optPago of OpcionesFormaPago" [ngValue]="optPago.Id">
               ‌{{ optPago.Nombre }}
             </option>

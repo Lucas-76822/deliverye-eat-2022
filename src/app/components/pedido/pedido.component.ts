@@ -1,6 +1,7 @@
 import { DatePipe, getLocaleDateFormat } from '@angular/common';
+import { ThisReceiver } from '@angular/compiler';
 import { Component, ElementRef, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
 import { ModalDialogService } from '../../services/modal-dialog.service';
 
 @Component({
@@ -46,6 +47,53 @@ export class PedidoComponent implements OnInit {
     { Id: 2, Nombre: 'Acordar Fecha y Hora' },
   ];
 
+  pagoValidadorRequerido() {
+    if (this.opSelec == 1) {
+      this.FormRegistro.controls["Monto"].setValidators([Validators.required, Validators.pattern('[0-9]{1,10}')]);
+      this.FormRegistro.controls["Monto"].updateValueAndValidity()
+      this.FormRegistro.controls["Tarjeta"].setValidators(null);
+      this.FormRegistro.controls["Tarjeta"].updateValueAndValidity()
+      this.FormRegistro.controls["CVV"].setValidators(null);
+      this.FormRegistro.controls["CVV"].updateValueAndValidity()
+      this.FormRegistro.controls["FechaVencimiento"].setValidators(null);
+      this.FormRegistro.controls["FechaVencimiento"].updateValueAndValidity()
+      this.FormRegistro.controls["Nombre"].setValidators(null);
+      this.FormRegistro.controls["Nombre"].updateValueAndValidity()
+
+    }
+    
+    else {
+      this.FormRegistro.controls["Monto"].setValidators(null);
+      this.FormRegistro.controls["Monto"].updateValueAndValidity()
+      this.FormRegistro.controls["Tarjeta"].setValidators([Validators.required, Validators.pattern('5[0-9]{15,15}')]); 
+      this.FormRegistro.controls["Tarjeta"].updateValueAndValidity()
+      this.FormRegistro.controls["CVV"].setValidators([Validators.required,Validators.pattern('[0-9]{3,3}')]); 
+      this.FormRegistro.controls["CVV"].updateValueAndValidity()
+      this.FormRegistro.controls["Nombre"].setValidators([Validators.required]); 
+      this.FormRegistro.controls["Nombre"].updateValueAndValidity()
+      this.FormRegistro.controls["FechaVencimiento"].setValidators([Validators.required, Validators.pattern(
+        '(0[1-9]|[12][0-9]|3[01])[-/](0[1-9]|1[012])[-/](202)[2-9]{1}'
+      )]); 
+      this.FormRegistro.controls["FechaVencimiento"].updateValueAndValidity()
+    }
+  }
+ 
+  entregaValidadorRequerido() {
+    if (this.opFormaEntrega != 2) {
+      this.FormRegistro.controls["FechaAlta"].setValidators(null);
+      this.FormRegistro.controls["FechaAlta"].updateValueAndValidity()
+      this.FormRegistro.controls["Hora"].setValidators(null);
+      this.FormRegistro.controls["Hora"].updateValueAndValidity()
+    }
+    
+    else {
+      this.FormRegistro.controls["FechaAlta"].setValidators([Validators.required]); 
+      this.FormRegistro.controls["FechaAlta"].updateValueAndValidity()
+      this.FormRegistro.controls["Hora"].setValidators([Validators.required]);
+      this.FormRegistro.controls["Hora"].updateValueAndValidity()
+    }
+  }
+
   public opSelec: number = 1;
   public opFormaEntrega: number = 1;
 
@@ -70,44 +118,27 @@ export class PedidoComponent implements OnInit {
 
     Referencia: new FormControl('', [Validators.maxLength(300)]),
 
-    FechaAlta: new FormControl('', [
-      Validators.required,
-      
+    FechaAlta: new FormControl('', 
       //Validators.pattern('(0[1-9]|[12][0-9]|3[01])[-/](0[1-9]|1[012])[-/](202)[2-9]{1}'),
-    ]),
-    Hora: new FormControl('', [
-      Validators.required,
-      
+    ),
+    Hora: new FormControl('',
       //Validators.pattern('(0[1-9]|[12][0-9]|3[01])[-/](0[1-9]|1[012])[-/](202)[2-9]{1}'),
-    ]),
+    ),
     Activo: new FormControl(1, [Validators.required]),
 
     Entrega: new FormControl(1, [Validators.required]),
 
     Ciudad: new FormControl(null, [Validators.required]),
 
-    Monto: new FormControl(null, [
-      Validators.required,
-      Validators.pattern('[0-9]{1,10}'),
-    ]),
+    Monto: new FormControl(null),
     
-    Nombre: new FormControl('', [Validators.required]),
-    Tarjeta: new FormControl(null, [
-      Validators.required,
-      Validators.pattern('5[0-9]{15,15}'),
-    ]),
+    Nombre: new FormControl(''),
 
-    CVV: new FormControl(null, [
-      Validators.required,
-      Validators.pattern('[0-9]{3,3}'),
-    ]),
+    Tarjeta: new FormControl(null),
 
-    FechaVencimiento: new FormControl('', [
-      Validators.required,
-      Validators.pattern(
-        '(0[1-9]|[12][0-9]|3[01])[-/](0[1-9]|1[012])[-/](202)[2-9]{1}'
-      ),
-    ]),
+    CVV: new FormControl(null),
+
+    FechaVencimiento: new FormControl(''),
   });
 
   submitted = false;
