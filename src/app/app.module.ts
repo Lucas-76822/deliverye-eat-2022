@@ -27,6 +27,7 @@ import { DatePickerAdapterISO } from './shared/DatePickerAdapterISO';
 import { DatePickerParserFormatter } from './shared/DatePickerParserFormater';
 import { DatePickerSpanish } from './shared/DatePickerSpanish';
 import { FormFocusDirective } from './shared/form-focus.directive';
+import { CarritoComponent } from './components/carrito/carrito.component';
 
 @NgModule({
   imports: [
@@ -63,6 +64,7 @@ import { FormFocusDirective } from './shared/form-focus.directive';
     MenuComponent,
     PedidoComponent,
     ModalDialogComponent,
+    CarritoComponent,
   ],
   entryComponents: [ModalDialogComponent],
   providers: [
