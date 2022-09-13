@@ -139,7 +139,14 @@ export class PedidoComponent implements OnInit {
     console.log(this.montoCarrito + " - " + this.montoSelec);
     this.setValidEntrega();
     this.setValidFormaPago();
-    this.validarMonto();
+
+    if (this.montoCarrito === 0) {
+      Notiflix.Notify.failure("El carrito está vacío");
+      return;
+    } else {
+      this.validarMonto();
+      this.mensajeConfirmacion();
+    }
 
     if (this.FormRegistro.invalid) {
       Notiflix.Notify.failure(
@@ -151,9 +158,7 @@ export class PedidoComponent implements OnInit {
     this.montoCarrito = event.monto;
   }
   validarMonto() {
-    if (this.montoSelec >= this.montoCarrito) {
-      this.mensajeConfirmacion();
-    } else {
+    if (this.montoSelec <= this.montoCarrito) {
       this.FormRegistro.controls.Monto.setValue(null);
     }
   }
@@ -173,7 +178,6 @@ export class PedidoComponent implements OnInit {
       this.FormRegistro.controls.Monto.setValue(1000000);
     }
     this.montoSelec = this.FormRegistro.controls.Monto.value;
-    this.mensajeConfirmacion();
   }
 
   setValidEntrega() {
