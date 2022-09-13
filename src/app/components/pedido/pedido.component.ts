@@ -18,7 +18,7 @@ import { CarritoComponent } from "../carrito/carrito.component";
   styleUrls: ["./pedido.component.css"],
 })
 export class PedidoComponent implements OnInit {
-  Titulo = "Pedido";
+  Titulo = "Confirma tu Pedido!";
   TituloAccionABMC = {
     A: "(Agregar)",
     B: "(Eliminar)",
@@ -55,6 +55,7 @@ export class PedidoComponent implements OnInit {
   public fechaActual: Date;
   public fechaStrActual: String;
   public horaStrActual: String;
+  public fechaVencIngresada: string;
 
   ngOnInit() {
     this.fechaActual = new Date(
@@ -88,7 +89,10 @@ export class PedidoComponent implements OnInit {
       Validators.pattern("[0-9]{1,10}"),
     ]),
 
-    Nombre: new FormControl("", [Validators.required]),
+    Nombre: new FormControl("", [
+      Validators.required,
+      Validators.maxLength(50),
+    ]),
     Tarjeta: new FormControl(null, [
       Validators.required,
       Validators.pattern("5[0-9]{15,15}"),
@@ -101,7 +105,7 @@ export class PedidoComponent implements OnInit {
 
     FechaVencimiento: new FormControl("", [
       Validators.required,
-      Validators.pattern("(0[1-9]|1[012])[-/][2-9]{2}"),
+      Validators.pattern("(0[1-9]|1[012])[-/][0-9]{2}"),
     ]),
   });
 
@@ -135,10 +139,12 @@ export class PedidoComponent implements OnInit {
   Volver() {
     this.AccionABMC = "L";
   }
+
   confirmar() {
     console.log(this.montoCarrito + " - " + this.montoSelec);
     this.setValidEntrega();
     this.setValidFormaPago();
+    // this.verificarFechaVenc();
 
     if (this.montoCarrito === 0) {
       Notiflix.Notify.failure("El carrito está vacío");
@@ -154,14 +160,17 @@ export class PedidoComponent implements OnInit {
       );
     }
   }
+
   guardarMonto(event) {
     this.montoCarrito = event.monto;
   }
+
   validarMonto() {
     if (this.montoSelec <= this.montoCarrito) {
       this.FormRegistro.controls.Monto.setValue(null);
     }
   }
+
   setValidFormaPago() {
     if (this.opSelec == 1 && this.FormRegistro.controls.Monto.valid) {
       this.FormRegistro.controls.Nombre.setValue("JOHN DOE");
@@ -187,6 +196,25 @@ export class PedidoComponent implements OnInit {
       );
     } else {
       return;
+    }
+  }
+
+  verificarFechaVenc() {
+    if (this.FormRegistro.controls.FechaVencimiento.value == "") {
+      return;
+    } else {
+      let mesVencimiento: string =
+        this.fechaVencIngresada.charAt(0) + this.fechaVencIngresada.charAt(1);
+      let añoVencimiento: string =
+        this.fechaVencIngresada.charAt(3) + this.fechaVencIngresada.charAt(4);
+
+      if (
+        parseInt(añoVencimiento, 10) < 22 ||
+        (parseInt(mesVencimiento, 10) <= this.fechaActual.getMonth() &&
+          parseInt(añoVencimiento, 10) == 22)
+      ) {
+        this.FormRegistro.controls.FechaVencimiento.setValue("");
+      }
     }
   }
 

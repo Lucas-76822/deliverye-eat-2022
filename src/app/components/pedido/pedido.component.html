@@ -1,4 +1,4 @@
-<div class="tituloPagina">
+<div class="tituloPagina text-center">
   {{ Titulo }}
 </div>
 
@@ -6,6 +6,7 @@
   <app-carrito (montoTotal)="guardarMonto($event)"></app-carrito>
 
   <div class="mt-5 mb-5">
+    <h3 *ngIf="visionMapa">Mapa</h3>
     <img
       *ngIf="visionMapa"
       class="mapa"
@@ -16,15 +17,14 @@
   </div>
   <!-- Registro en Alta,Modificacion y Consulta -->
 
+  <h3>Formulario de Envío</h3>
   <form name="FormRegistro" [formGroup]="FormRegistro">
     <div class="container-fluid">
       <fieldset [disabled]="AccionABMC === 'C'">
         <!--campo ciudad-->
         <div class="row">
           <div class="col-sm-3 col-md-2 offset-md-1">
-            <label class="col-form-label" for="Ciudad"
-              >Ciudad<span class="text-danger">*</span>:</label
-            >
+            <label class="col-form-label" for="Ciudad">Ciudad:</label>
           </div>
           <div class="col-sm-7 col-md-5">
             <!-- ref?? disabled html no fucniona en reactive forms? -->
@@ -60,9 +60,7 @@
         <!--campo calle-->
         <div class="row">
           <div class="col-sm-3 col-md-2 offset-md-1">
-            <label class="col-form-label" for="Calle"
-              >Calle<span class="text-danger">*</span>:</label
-            >
+            <label class="col-form-label" for="Calle">Calle:</label>
           </div>
           <div class="col-sm-8 col-md-6">
             <input
@@ -101,9 +99,7 @@
         <!--campo altura-->
         <div class="row">
           <div class="col-sm-3 col-md-2 offset-md-1">
-            <label class="col-form-label" for="Altura"
-              >Altura<span class="text-danger">*</span>:</label
-            >
+            <label class="col-form-label" for="Altura">Altura:</label>
           </div>
           <div class="col-sm-8 col-md-6">
             <input
@@ -257,9 +253,7 @@
         <!--campo monto-->
         <div class="row" *ngIf="opSelec == 1">
           <div class="col-sm-3 col-md-2 offset-md-1">
-            <label class="col-form-label" for="Monto"
-              >Monto<span class="text-danger">*</span>:</label
-            >
+            <label class="col-form-label" for="Monto">Monto:</label>
           </div>
           <div class="col-sm-8 col-md-6">
             <input
@@ -299,7 +293,7 @@
         <div class="row" *ngIf="opSelec == 2">
           <div class="col-sm-3 col-md-2 offset-md-1">
             <label class="col-form-label" for="Nombre"
-              >Nombre y Apellido<span class="text-danger">*</span>:</label
+              >Nombre y Apellido:</label
             >
           </div>
           <div class="col-sm-8 col-md-6">
@@ -339,9 +333,7 @@
         <!--campo Tarjeta-->
         <div class="row" *ngIf="opSelec == 2">
           <div class="col-sm-3 col-md-2 offset-md-1">
-            <label class="col-form-label" for="Tarjeta"
-              >Tarjeta<span class="text-danger">*</span>:</label
-            >
+            <label class="col-form-label" for="Tarjeta">Tarjeta:</label>
           </div>
           <div class="col-sm-8 col-md-6">
             <input
@@ -380,9 +372,7 @@
         <!--campo CVV-->
         <div class="row" *ngIf="opSelec == 2">
           <div class="col-sm-3 col-md-2 offset-md-1">
-            <label class="col-form-label" for="CVV"
-              >CVV<span class="text-danger">*</span>:</label
-            >
+            <label class="col-form-label" for="CVV">CVV:</label>
           </div>
           <div class="col-sm-8 col-md-6">
             <input
@@ -421,9 +411,7 @@
         <!--campo FechaVencimiento-->
         <div class="row" *ngIf="opSelec == 2">
           <div class="col-sm-3 col-md-2 offset-md-1">
-            <label class="col-form-label"
-              >Fecha Vencimiento<span class="text-danger">*</span>:
-            </label>
+            <label class="col-form-label">Fecha Vencimiento: </label>
           </div>
           <div class="col-sm-8 col-md-6">
             <input
@@ -464,11 +452,19 @@
         <hr />
         <!-- Botones -->
         <div class="row justify-content-center botones">
-          <button type="button" class="btn btn-success" (click)="confirmar()">
-            <i class="fa fa-check"></i>Confirmar
+          <button
+            type="button"
+            class="btn btn-success btnConfirm"
+            (click)="confirmar()"
+          >
+            Confirmar
           </button>
-          <button type="button" class="btn btn-warning" routerLink="/inicio">
-            <i class="fa fa-undo"></i> Cancelar
+          <button
+            type="button"
+            class="btn btn-warning btnCancel"
+            routerLink="/inicio"
+          >
+            Cancelar
           </button>
         </div>
       </fieldset>
