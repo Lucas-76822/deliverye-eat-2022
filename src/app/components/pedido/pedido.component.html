@@ -1,11 +1,19 @@
 <div class="tituloPagina">
-    {{ Titulo }}
+  {{ Titulo }}
 </div>
 
 <div class="container">
   <app-carrito (montoTotal)="guardarMonto($event)"></app-carrito>
 
-  <div class="mt-5 mb-5"></div>
+  <div class="mt-5 mb-5">
+    <img
+      *ngIf="visionMapa"
+      class="mapa"
+      [src]="mapaParaCiudad"
+      alt="Mapa Cba"
+      (click)="asignarDireccion()"
+    />
+  </div>
   <!-- Registro en Alta,Modificacion y Consulta -->
 
   <form name="FormRegistro" [formGroup]="FormRegistro">
@@ -13,17 +21,18 @@
       <fieldset [disabled]="AccionABMC === 'C'">
         <!--campo ciudad-->
         <div class="row">
-          <div class="col-sm-4 col-md-3 offset-md-1">
+          <div class="col-sm-3 col-md-2 offset-md-1">
             <label class="col-form-label" for="Ciudad"
               >Ciudad<span class="text-danger">*</span>:</label
             >
           </div>
-          <div class="col-sm-8 col-md-6">
+          <div class="col-sm-7 col-md-5">
             <!-- ref?? disabled html no fucniona en reactive forms? -->
             <select
               class="form-control"
               name="Ciudad"
               formControlName="Ciudad"
+              [(ngModel)]="ciudadSeleccionada"
               [disabled]="true"
             >
               <option
@@ -34,6 +43,9 @@
               </option>
             </select>
           </div>
+          <button class="btn btn-primary btnMapa" (click)="desplegarMapa()">
+            Mapa
+          </button>
           <div
             class="validacion"
             *ngIf="
@@ -47,7 +59,7 @@
 
         <!--campo calle-->
         <div class="row">
-          <div class="col-sm-4 col-md-3 offset-md-1">
+          <div class="col-sm-3 col-md-2 offset-md-1">
             <label class="col-form-label" for="Calle"
               >Calle<span class="text-danger">*</span>:</label
             >
@@ -88,7 +100,7 @@
 
         <!--campo altura-->
         <div class="row">
-          <div class="col-sm-4 col-md-3 offset-md-1">
+          <div class="col-sm-3 col-md-2 offset-md-1">
             <label class="col-form-label" for="Altura"
               >Altura<span class="text-danger">*</span>:</label
             >
@@ -128,7 +140,7 @@
 
         <!--campo referencia-->
         <div class="row">
-          <div class="col-sm-4 col-md-3 offset-md-1">
+          <div class="col-sm-3 col-md-2 offset-md-1">
             <label class="col-form-label" for="Referencia">Referencia:</label>
           </div>
           <div class="col-sm-8 col-md-6">
@@ -166,7 +178,7 @@
         </div>
         <!--campo fomrma entrega-->
         <div class="row">
-          <div class="col-sm-4 col-md-3 offset-md-1">
+          <div class="col-sm-3 col-md-2 offset-md-1">
             <label class="col-form-label" for="Entrega"
               >Forma de Entrega:</label
             >
@@ -192,7 +204,7 @@
 
         <!--campo fechaEntrega-->
         <div class="row" *ngIf="opFormaEntrega == 2">
-          <div class="col-sm-4 col-md-3 offset-md-1">
+          <div class="col-sm-3 col-md-2 offset-md-1">
             <label for="FechaAlta" class="col-form-label"
               >Fecha de entrega<span class="text-danger">*</span>:
             </label>
@@ -204,12 +216,6 @@
               formControlName="FechaAlta"
               name="FechaAlta"
               [min]="fechaStrActual"
-              max=""
-              [ngClass]="{
-                'is-invalid':
-                  (FormRegistro.controls['FechaAlta'].touched || submitted) &&
-                  FormRegistro.controls['FechaAlta'].errors
-              }"
             />
 
             <div
@@ -226,7 +232,7 @@
 
         <!--campo fomrma pago-->
         <div class="row">
-          <div class="col-sm-4 col-md-3 offset-md-1">
+          <div class="col-sm-3 col-md-2 offset-md-1">
             <label class="col-form-label" for="Activo">Forma de Pago:</label>
           </div>
           <div class="col-sm-8 col-md-6">
@@ -250,11 +256,10 @@
 
         <!--campo monto-->
         <div class="row" *ngIf="opSelec == 1">
-          <div class="col-sm-4 col-md-3 offset-md-1">
+          <div class="col-sm-3 col-md-2 offset-md-1">
             <label class="col-form-label" for="Monto"
               >Monto<span class="text-danger">*</span>:</label
             >
-
           </div>
           <div class="col-sm-8 col-md-6">
             <input
@@ -292,7 +297,7 @@
 
         <!--campo nombre-->
         <div class="row" *ngIf="opSelec == 2">
-          <div class="col-sm-4 col-md-3 offset-md-1">
+          <div class="col-sm-3 col-md-2 offset-md-1">
             <label class="col-form-label" for="Nombre"
               >Nombre y Apellido<span class="text-danger">*</span>:</label
             >
@@ -333,7 +338,7 @@
 
         <!--campo Tarjeta-->
         <div class="row" *ngIf="opSelec == 2">
-          <div class="col-sm-4 col-md-3 offset-md-1">
+          <div class="col-sm-3 col-md-2 offset-md-1">
             <label class="col-form-label" for="Tarjeta"
               >Tarjeta<span class="text-danger">*</span>:</label
             >
@@ -374,7 +379,7 @@
 
         <!--campo CVV-->
         <div class="row" *ngIf="opSelec == 2">
-          <div class="col-sm-4 col-md-3 offset-md-1">
+          <div class="col-sm-3 col-md-2 offset-md-1">
             <label class="col-form-label" for="CVV"
               >CVV<span class="text-danger">*</span>:</label
             >
@@ -413,53 +418,68 @@
           </div>
         </div>
 
-      <!--campo FechaVencimiento-->
-      <div class="row" *ngIf="opSelec == 2">
-        <div class="col-sm-4 col-md-3 offset-md-1">
-          <label class="col-form-label"
-            >Fecha Vencimiento<span class="text-danger">*</span>:
-          </label>
-                </div>
-                <div class="col-sm-8 col-md-6">
-                    <input class="form-control" formControlName="FechaVencimiento" name="FechaVencimiento" [ngClass]="{
-              'is-invalid':
+        <!--campo FechaVencimiento-->
+        <div class="row" *ngIf="opSelec == 2">
+          <div class="col-sm-3 col-md-2 offset-md-1">
+            <label class="col-form-label"
+              >Fecha Vencimiento<span class="text-danger">*</span>:
+            </label>
+          </div>
+          <div class="col-sm-8 col-md-6">
+            <input
+              class="form-control"
+              formControlName="FechaVencimiento"
+              name="FechaVencimiento"
+              [ngClass]="{
+                'is-invalid':
+                  (FormRegistro.controls['FechaVencimiento'].touched ||
+                    submitted) &&
+                  FormRegistro.controls['FechaVencimiento'].errors
+              }"
+            />
+
+            <div
+              class="validacion"
+              *ngIf="
                 (FormRegistro.controls['FechaVencimiento'].touched ||
                   submitted) &&
-                FormRegistro.controls['FechaVencimiento'].errors
-            }" />
-
-                    <div class="validacion" *ngIf="
-              (FormRegistro.controls['FechaVencimiento'].touched ||
-                submitted) &&
-              FormRegistro.controls['FechaVencimiento'].hasError('required')
-            ">
-                        Dato requerido.
-                    </div>
-                    <div class="validacion" *ngIf="
-              (FormRegistro.controls['FechaVencimiento'].touched ||
-                submitted) &&
-              FormRegistro.controls['FechaVencimiento'].hasError('pattern')
-            ">
-                        Dato fecha, formato mm/aa.
-                    </div>
-                </div>
+                FormRegistro.controls['FechaVencimiento'].hasError('required')
+              "
+            >
+              Dato requerido.
             </div>
-
-            <hr />
-            <!-- Botones -->
-            <div class="row justify-content-center botones">
-                <button type="button" class="btn btn-success" (click)="confirmar()">
-          <i class="fa fa-check"></i>Confirmar
-        </button>
-                <button type="button" class="btn btn-warning" routerLink="/inicio">
-          <i class="fa fa-undo"></i> Cancelar
-        </button>
+            <div
+              class="validacion"
+              *ngIf="
+                (FormRegistro.controls['FechaVencimiento'].touched ||
+                  submitted) &&
+                FormRegistro.controls['FechaVencimiento'].hasError('pattern')
+              "
+            >
+              Dato fecha, formato mm/aa.
             </div>
-        </fieldset>
-
-        <!--texto: Revisar los datos ingresados...-->
-        <div *ngIf="submitted && FormRegistro.invalid" class="row alert alert-danger mensajesAlert">
-            <i class="fa fa-exclamation-sign"></i>{{ Mensajes["RD"] }}
+          </div>
         </div>
+
+        <hr />
+        <!-- Botones -->
+        <div class="row justify-content-center botones">
+          <button type="button" class="btn btn-success" (click)="confirmar()">
+            <i class="fa fa-check"></i>Confirmar
+          </button>
+          <button type="button" class="btn btn-warning" routerLink="/inicio">
+            <i class="fa fa-undo"></i> Cancelar
+          </button>
+        </div>
+      </fieldset>
+
+      <!--texto: Revisar los datos ingresados...-->
+      <div
+        *ngIf="submitted && FormRegistro.invalid"
+        class="row alert alert-danger mensajesAlert"
+      >
+        <i class="fa fa-exclamation-sign"></i>{{ Mensajes["RD"] }}
+      </div>
     </div>
-</form>
+  </form>
+</div>

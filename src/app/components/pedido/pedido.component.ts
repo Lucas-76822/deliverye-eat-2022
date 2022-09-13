@@ -1,7 +1,13 @@
 import { DatePipe, getLocaleDateFormat } from "@angular/common";
-import { Component, ElementRef, OnInit, Input } from "@angular/core";
+import {
+  Component,
+  ElementRef,
+  OnInit,
+  Input,
+  HostListener,
+} from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
-import { Router } from '@angular/router';
+import { Router } from "@angular/router";
 import * as Notiflix from "notiflix";
 import { ModalDialogService } from "../../services/modal-dialog.service";
 import { CarritoComponent } from "../carrito/carrito.component";
@@ -52,7 +58,6 @@ export class PedidoComponent implements OnInit {
   public fechaStrActual: String;
   public horaStrActual: String;
 
-
   ngOnInit() {
     this.fechaActual = new Date(
       new Date().getFullYear(),
@@ -62,7 +67,6 @@ export class PedidoComponent implements OnInit {
       new Date().getMinutes()
     );
     this.fechaStrActual = this.pd.transform(this.fechaActual, "yyyy-MM-dd");
-
   }
   FormRegistro = new FormGroup({
     Calle: new FormControl("", [Validators.required]),
@@ -106,14 +110,31 @@ export class PedidoComponent implements OnInit {
   submitted = false;
   montoSelec: number;
   montoCarrito: number;
+  visionMapa: boolean = false;
+  ciudadSeleccionada: number = 1;
+  mapaParaCiudad: string;
+
+  @HostListener("document:mousemove", ["$event"])
+  cambiarMapa() {
+    this.mapaParaCiudad =
+      "../../../assets/img/" + this.ciudadSeleccionada + ".png";
+  }
 
   constructor(
     //private articulosService: MockArticulosService,
     //private articulosFamiliasService: MockArticulosFamiliasService,
     private modalDialogService: ModalDialogService,
     private pd: DatePipe,
-    private router: Router,
+    private router: Router
   ) {}
+
+  desplegarMapa() {
+    this.visionMapa = !this.visionMapa;
+  }
+  asignarDireccion() {
+    this.FormRegistro.controls.Calle.setValue("San Lorenzo");
+    this.FormRegistro.controls.Altura.setValue(468);
+  }
 
   Volver() {
     this.AccionABMC = "L";
@@ -166,16 +187,15 @@ export class PedidoComponent implements OnInit {
     this.submitted = true;
     // verificar que los validadores esten OK
     if (this.FormRegistro.invalid) {
-      
       return;
-    }
-    else{
+    } else {
       Notiflix.Notify.success("Su pedido se ha realizado de forma exitosa.");
-      setTimeout(()=>{  this.router.navigate(['/inicio'])}, 750)
-      ; 
-    /*this.modalDialogService.Confirm(
+      setTimeout(() => {
+        this.router.navigate(["/inicio"]);
+      }, 750);
+      /*this.modalDialogService.Confirm(
       "Su pedido se ha realizado de forma exitosa."
-    );*/ }
-    
+    );*/
+    }
   }
 }
