@@ -28,15 +28,10 @@ export class PedidoComponent implements OnInit {
   };
 
   AccionABMC = "L"; // inicialmente inicia en el Listado de articulos (buscar con parametros)
-  Mensajes = {
-    SD: " No se encontraron registros...",
-    RD: " Revisar los datos ingresados...",
-  };
 
   // opciones de combo
 
   OcionesCiudad = [
-    { Id: null, Nombre: "" },
     { Id: 1, Nombre: "Cordoba" },
     { Id: 2, Nombre: "Carlos Paz" },
     { Id: 3, Nombre: "Jesus Maria" },
@@ -121,8 +116,6 @@ export class PedidoComponent implements OnInit {
   }
 
   constructor(
-    //private articulosService: MockArticulosService,
-    //private articulosFamiliasService: MockArticulosFamiliasService,
     private modalDialogService: ModalDialogService,
     private pd: DatePipe,
     private router: Router
@@ -144,6 +137,12 @@ export class PedidoComponent implements OnInit {
     this.setValidEntrega();
     this.setValidFormaPago();
     this.validarMonto();
+
+    if (this.FormRegistro.invalid) {
+      Notiflix.Notify.failure(
+        "No ha ingresado correctamente todos los parametros"
+      );
+    }
   }
   guardarMonto(event) {
     this.montoCarrito = event.monto;
@@ -193,9 +192,10 @@ export class PedidoComponent implements OnInit {
       setTimeout(() => {
         this.router.navigate(["/inicio"]);
       }, 750);
-      /*this.modalDialogService.Confirm(
-      "Su pedido se ha realizado de forma exitosa."
-    );*/
+
+      setTimeout(() => {
+        this.FormRegistro.reset();
+      }, 800);
     }
   }
 }
