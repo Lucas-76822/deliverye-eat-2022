@@ -28,7 +28,10 @@ export class PedidoComponent implements OnInit {
   };
 
   AccionABMC = "L"; // inicialmente inicia en el Listado de articulos (buscar con parametros)
-
+  Mensajes = {
+    SD: " No se encontraron registros...",
+    RD: " Revisar los datos ingresados...",
+  };
   // opciones de combo
 
   OcionesCiudad = [
@@ -170,6 +173,7 @@ export class PedidoComponent implements OnInit {
       this.FormRegistro.controls.Monto.setValue(1000000);
     }
     this.montoSelec = this.FormRegistro.controls.Monto.value;
+    this.mensajeConfirmacion();
   }
 
   setValidEntrega() {
