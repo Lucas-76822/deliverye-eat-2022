@@ -144,7 +144,7 @@ export class PedidoComponent implements OnInit {
     console.log(this.montoCarrito + " - " + this.montoSelec);
     this.setValidEntrega();
     this.setValidFormaPago();
-    // this.verificarFechaVenc();
+    this.verificarFechaVenc();
 
     if (this.montoCarrito === 0) {
       Notiflix.Notify.failure("El carrito está vacío");
@@ -200,7 +200,7 @@ export class PedidoComponent implements OnInit {
   }
 
   verificarFechaVenc() {
-    if (this.FormRegistro.controls.FechaVencimiento.value == "") {
+    if (this.opSelec == 1) {
       return;
     } else {
       let mesVencimiento: string =
@@ -214,6 +214,7 @@ export class PedidoComponent implements OnInit {
           parseInt(añoVencimiento, 10) == 22)
       ) {
         this.FormRegistro.controls.FechaVencimiento.setValue("");
+        return;
       }
     }
   }
