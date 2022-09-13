@@ -66,7 +66,7 @@ export class PedidoComponent implements OnInit {
       new Date().getHours(),
       new Date().getMinutes()
     );
-    this.fechaStrActual = this.pd.transform(this.fechaActual, "yyyy-MM-dd");
+    this.fechaStrActual = this.pd.transform(this.fechaActual, "yyyy-MM-dd hh:mm");
   }
   FormRegistro = new FormGroup({
     Calle: new FormControl("", [Validators.required]),
