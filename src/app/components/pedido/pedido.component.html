@@ -1,5 +1,5 @@
 <div class="tituloPagina">
-  {{ Titulo }}
+    {{ Titulo }}
 </div>
 
 <div class="container">
@@ -247,12 +247,14 @@
             </select>
           </div>
         </div>
+
         <!--campo monto-->
         <div class="row" *ngIf="opSelec == 1">
           <div class="col-sm-4 col-md-3 offset-md-1">
             <label class="col-form-label" for="Monto"
               >Monto<span class="text-danger">*</span>:</label
             >
+
           </div>
           <div class="col-sm-8 col-md-6">
             <input
@@ -411,68 +413,53 @@
           </div>
         </div>
 
-        <!--campo FechaVencimiento-->
-        <div class="row" *ngIf="opSelec == 2">
-          <div class="col-sm-4 col-md-3 offset-md-1">
-            <label class="col-form-label"
-              >Fecha Vencimiento<span class="text-danger">*</span>:
-            </label>
-          </div>
-          <div class="col-sm-8 col-md-6">
-            <input
-              class="form-control"
-              formControlName="FechaVencimiento"
-              name="FechaVencimiento"
-              [ngClass]="{
-                'is-invalid':
-                  (FormRegistro.controls['FechaVencimiento'].touched ||
-                    submitted) &&
-                  FormRegistro.controls['FechaVencimiento'].errors
-              }"
-            />
-
-            <div
-              class="validacion"
-              *ngIf="
+      <!--campo FechaVencimiento-->
+      <div class="row" *ngIf="opSelec == 2">
+        <div class="col-sm-4 col-md-3 offset-md-1">
+          <label class="col-form-label"
+            >Fecha Vencimiento<span class="text-danger">*</span>:
+          </label>
+                </div>
+                <div class="col-sm-8 col-md-6">
+                    <input class="form-control" formControlName="FechaVencimiento" name="FechaVencimiento" [ngClass]="{
+              'is-invalid':
                 (FormRegistro.controls['FechaVencimiento'].touched ||
                   submitted) &&
-                FormRegistro.controls['FechaVencimiento'].hasError('required')
-              "
-            >
-              Dato requerido.
-            </div>
-            <div
-              class="validacion"
-              *ngIf="
-                (FormRegistro.controls['FechaVencimiento'].touched ||
-                  submitted) &&
-                FormRegistro.controls['FechaVencimiento'].hasError('pattern')
-              "
-            >
-              Dato fecha, formato mm/aa.
-            </div>
-          </div>
-        </div>
+                FormRegistro.controls['FechaVencimiento'].errors
+            }" />
 
-        <hr />
-        <!-- Botones -->
-        <div class="row justify-content-center botones">
-          <button type="button" class="btn btn-success" (click)="confirmar()">
-            <i class="fa fa-check"></i>Confirmar
-          </button>
-          <button type="button" class="btn btn-warning" routerLink="/inicio">
-            <i class="fa fa-undo"></i> Cancelar
-          </button>
-        </div>
-      </fieldset>
+                    <div class="validacion" *ngIf="
+              (FormRegistro.controls['FechaVencimiento'].touched ||
+                submitted) &&
+              FormRegistro.controls['FechaVencimiento'].hasError('required')
+            ">
+                        Dato requerido.
+                    </div>
+                    <div class="validacion" *ngIf="
+              (FormRegistro.controls['FechaVencimiento'].touched ||
+                submitted) &&
+              FormRegistro.controls['FechaVencimiento'].hasError('pattern')
+            ">
+                        Dato fecha, formato mm/aa.
+                    </div>
+                </div>
+            </div>
 
-      <!--texto: Revisar los datos ingresados...-->
-      <div
-        *ngIf="submitted && FormRegistro.invalid"
-        class="row alert alert-danger mensajesAlert"
-      >
-        <i class="fa fa-exclamation-sign"></i>{{ Mensajes["RD"] }}
-      </div>
+            <hr />
+            <!-- Botones -->
+            <div class="row justify-content-center botones">
+                <button type="button" class="btn btn-success" (click)="confirmar()">
+          <i class="fa fa-check"></i>Confirmar
+        </button>
+                <button type="button" class="btn btn-warning" routerLink="/inicio">
+          <i class="fa fa-undo"></i> Cancelar
+        </button>
+            </div>
+        </fieldset>
+
+        <!--texto: Revisar los datos ingresados...-->
+        <div *ngIf="submitted && FormRegistro.invalid" class="row alert alert-danger mensajesAlert">
+            <i class="fa fa-exclamation-sign"></i>{{ Mensajes["RD"] }}
+        </div>
     </div>
-  </form>
-</div>
+</form>
