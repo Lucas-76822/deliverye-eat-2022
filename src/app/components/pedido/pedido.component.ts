@@ -54,6 +54,7 @@ export class PedidoComponent implements OnInit {
 
   public fechaActual: Date;
   public fechaStrActual: String;
+  public fechaEntrega: String;
   public horaStrActual: String;
   public fechaVencIngresada: string;
 
@@ -145,6 +146,7 @@ export class PedidoComponent implements OnInit {
     this.setValidEntrega();
     this.setValidFormaPago();
     this.verificarFechaVenc();
+    this.validarFechaEntrega();
 
     if (this.montoCarrito === 0) {
       Notiflix.Notify.failure("El carrito está vacío");
@@ -198,6 +200,17 @@ export class PedidoComponent implements OnInit {
       return;
     }
   }
+validarFechaEntrega(){
+  if( (new Date(this.fechaEntrega.toString()).getTime() < new Date(this.fechaStrActual.toString()).getTime()))
+{
+   //alert('la fecha es menor'); 
+   this.FormRegistro.controls.FechaAlta.setValue("");
+   return;
+}else{
+ return;
+}
+}
+
 
   verificarFechaVenc() {
     if (this.opSelec == 1) {

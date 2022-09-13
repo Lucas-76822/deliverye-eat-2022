@@ -156,7 +156,7 @@
             </label>
                     </div>
                     <div class="col-sm-8 col-md-6">
-                        <input type="datetime-local" lass="form-control" formControlName="FechaAlta" name="FechaAlta" [min]="fechaStrActual" />
+                        <input type="datetime-local" lass="form-control" formControlName="FechaAlta" name="FechaAlta" [(ngModel)]="fechaEntrega" [min]="fechaStrActual" />
 
                         <div class="validacion" *ngIf="
                 (FormRegistro.controls['FechaAlta'].touched || submitted) &&
