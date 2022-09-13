@@ -66,7 +66,10 @@ export class PedidoComponent implements OnInit {
       new Date().getHours(),
       new Date().getMinutes()
     );
-    this.fechaStrActual = this.pd.transform(this.fechaActual, "yyyy-MM-dd hh:mm");
+    this.fechaStrActual = this.pd.transform(
+      this.fechaActual,
+      "yyyy-MM-dd HH:mm"
+    );
   }
   FormRegistro = new FormGroup({
     Calle: new FormControl("", [Validators.required]),
@@ -200,17 +203,18 @@ export class PedidoComponent implements OnInit {
       return;
     }
   }
-validarFechaEntrega(){
-  if( (new Date(this.fechaEntrega.toString()).getTime() < new Date(this.fechaStrActual.toString()).getTime()))
-{
-   //alert('la fecha es menor'); 
-   this.FormRegistro.controls.FechaAlta.setValue("");
-   return;
-}else{
- return;
-}
-}
-
+  validarFechaEntrega() {
+    if (
+      new Date(this.FormRegistro.controls.FechaAlta.value).getTime() <
+      new Date(this.fechaStrActual.toString()).getTime()
+    ) {
+      //alert('la fecha es menor');
+      this.FormRegistro.controls.FechaAlta.setValue("");
+      return;
+    } else {
+      return;
+    }
+  }
 
   verificarFechaVenc() {
     if (this.opSelec == 1) {
