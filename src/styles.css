@@ -1,9 +1,9 @@
 body {
-  background-color: rgb(53, 156, 96);
+  background-color: rgb(44, 74, 57);
 }
 
 .divBody {
-  background-color: rgb(182, 230, 156);
+  background-color: white;
   min-height: 84vh;
   padding: 1rem;
 }
@@ -28,7 +28,7 @@ h3 {
   font-size: 1.75rem;
   font-weight: 500;
   color: white;
-  text-shadow: 1px 1px 2px black, 0 0 25px rgb(126, 47, 27),
+  text-shadow: 1px 1px 2px black, 0 0 25px rgb(7, 32, 18),
     0 0 5px rgb(18, 58, 30);
   border-bottom-style: solid;
   border-color: #222222;
